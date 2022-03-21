@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "serverless deploy"
+    "deploy": "serverless"
   },
   "dependencies": {
     "next": "12.1.0",
