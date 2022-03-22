@@ -1,11 +1,10 @@
 name: Deploy Preview
 
 on:
-  push:
-    branches-ignore:
-      - main
   pull_request:
-    types: [labeled]
+    types: [opened, reopened, synchronize, labeled]
+    branches:    
+      - 'feature/**'
 
 jobs:
   deploy-preview:
@@ -17,7 +16,11 @@ jobs:
       - name: GitHub Refs
         uses: rlespinasse/github-slug-action@v2.x
 
+      - name: Test
+        run: echo Running Tests!
+
       - name: Deploy
+        if: github.event.label.name == 'deploy'
         run: echo Doing Deploy!
 
       # - name: Use Node.js
