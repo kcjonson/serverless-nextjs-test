@@ -1,6 +1,7 @@
 name: Deploy Preview
 
 on:
+  push:
   pull_request:
     types: [opened, reopened, synchronize, labeled]
     # branches:    
