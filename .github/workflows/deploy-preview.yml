@@ -3,8 +3,8 @@ name: Deploy Preview
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled]
-    branches:    
-      - 'feature/**'
+    # branches:    
+    #   - 'feature/**'
 
 jobs:
   deploy-preview:
