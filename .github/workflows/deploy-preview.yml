@@ -4,6 +4,8 @@ on:
   push:
     branches-ignore:
       - main
+  pull_request:
+    types: [labeled]
 
 jobs:
   deploy-preview:
@@ -15,28 +17,31 @@ jobs:
       - name: GitHub Refs
         uses: rlespinasse/github-slug-action@v2.x
 
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
+      - name: Deploy
+        run: echo Doing Deploy!
 
-      - name: install dependencies
-        run: npm install
+      # - name: Use Node.js
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: 14.x
 
-      - name: lint
-        run: npm run lint
+      # - name: install dependencies
+      #   run: npm install
+
+      # - name: lint
+      #   run: npm run lint
 
       # Note: the deploy can also use the secrets directly from the enviroment
       # so the configure-aws-credentials action isn't required, but it may
       # give us more flexability going forward
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
 
-      - name: Serverless Deploy
-        id: serverless_deploy
-        if: github.event.label.name == 'deploy'
-        run: npm run deploy
+      # - name: Serverless Deploy
+      #   id: serverless_deploy
+      #   if: github.event.label.name == 'deploy'
+      #   run: npm run deploy
