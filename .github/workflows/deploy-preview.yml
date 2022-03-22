@@ -26,6 +26,9 @@ jobs:
       - name: lint
         run: npm run lint
 
+      # Note: the deploy can also use the secrets directly from the enviroment
+      # so the configure-aws-credentials action isn't required, but it may
+      # give us more flexability going forward
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -35,4 +38,5 @@ jobs:
 
       - name: Serverless Deploy
         id: serverless_deploy
+        if: github.event.label.name == 'deploy'
         run: npm run deploy
