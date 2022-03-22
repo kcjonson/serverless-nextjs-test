@@ -3,15 +3,16 @@ name: Deploy Preview
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled]
-    # branches:    
-    #   - 'feature/**'
+    branches:
+      - 'feature/**'
 
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
       - name: Use Node.js
         uses: actions/setup-node@v2
@@ -19,17 +20,18 @@ jobs:
           node-version: 14.x
           cache: 'npm'
 
-      - name: install dependencies
+      - name: Install Dependencies
         run: npm install --quiet
 
-      - name: lint
+      - name: Lint
         run: npm run lint
 
+      # TODO: Use in deploy of branches as key
       # - name: GitHub Refs
       #   if: contains(github.event.pull_request.labels.*.name, 'deploy')
       #   uses: rlespinasse/github-slug-action@v3.x
 
-      # Note: the deploy can also use the secrets directly from the enviroment
+      # NOTE: the deploy can also use the secrets directly from the enviroment
       # so the configure-aws-credentials action isn't required, but it may
       # give us more flexability going forward
       - name: Configure AWS Credentials
