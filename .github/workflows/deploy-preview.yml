@@ -13,33 +13,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      # - name: GitHub Refs
-      #   uses: rlespinasse/github-slug-action@v3.x
-
-      # - name: Use Node.js
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: 14.x
-      #     cache: 'npm'
+          node-version: 14.x
+          cache: 'npm'
 
       - name: install dependencies
         run: npm install --quiet
 
       - name: lint
         run: npm run lint
+
+      # - name: GitHub Refs
+      #   if: contains(github.event.pull_request.labels.*.name, 'deploy')
+      #   uses: rlespinasse/github-slug-action@v3.x
 
       # Note: the deploy can also use the secrets directly from the enviroment
       # so the configure-aws-credentials action isn't required, but it may
