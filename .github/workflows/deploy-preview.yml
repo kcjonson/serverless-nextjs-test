@@ -1,7 +1,7 @@
 name: Deploy Preview
 
 on:
-  pull_request:
+  push:
     # types: [opened, reopened, synchronize, labeled]
     # branches:    
     #   - 'feature/**'
@@ -33,15 +33,15 @@ jobs:
       # NOTE: the deploy can also use the secrets directly from the enviroment
       # so the configure-aws-credentials action isn't required, but it may
       # give us more flexability going forward
-      - name: Configure AWS Credentials
-        if: contains(github.event.pull_request.labels.*.name, 'deploy')
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+      # - name: Configure AWS Credentials
+      #   if: contains(github.event.pull_request.labels.*.name, 'deploy')
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1
 
-      - name: Serverless Deploy
-        id: serverless_deploy # is this needed?
-        if: contains(github.event.pull_request.labels.*.name, 'deploy')
-        run: npm run deploy
+      # - name: Serverless Deploy
+      #   id: serverless_deploy # is this needed?
+      #   if: contains(github.event.pull_request.labels.*.name, 'deploy')
+      #   run: npm run deploy
