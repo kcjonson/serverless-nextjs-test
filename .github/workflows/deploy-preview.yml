@@ -3,7 +3,7 @@ name: Deploy Preview
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled]
-    
+
 jobs:
   setup:
     name: Setup
@@ -23,6 +23,7 @@ jobs:
 
   lint:
     needs: setup
+    runs-on: ubuntu-latest
     steps:
       - name: Lint
         run: npm run lint
@@ -30,6 +31,7 @@ jobs:
 
   deploy-preview:
     needs: setup
+    runs-on: ubuntu-latest
     steps:
       # TODO: Use in deploy of branches as key
       # - name: GitHub Refs
