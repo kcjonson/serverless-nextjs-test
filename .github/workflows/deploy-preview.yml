@@ -62,10 +62,25 @@ jobs:
         run: npm run lint
 
 
-  deploy-preview:
+  deploy:
+    name: 'Deploy'
     needs: ['lint', 'test']
+    if: contains(github.event.pull_request.labels.*.name, 'deploy')
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install --quiet
+
+
       # TODO: Use in deploy of branches as key
       # - name: GitHub Refs
       #   if: contains(github.event.pull_request.labels.*.name, 'deploy')
@@ -75,7 +90,6 @@ jobs:
       # so the configure-aws-credentials action isn't required, but it may
       # give us more flexability going forward
       - name: Configure AWS Credentials
-        if: contains(github.event.pull_request.labels.*.name, 'deploy')
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -84,5 +98,4 @@ jobs:
 
       - name: Serverless Deploy
         id: serverless_deploy # is this needed?
-        if: contains(github.event.pull_request.labels.*.name, 'deploy')
         run: npm run deploy
