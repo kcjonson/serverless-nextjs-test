@@ -35,6 +35,9 @@ jobs:
           node-version: 14.x
           cache: 'npm'
 
+      - name: Install Dependencies
+        run: npm install --quiet
+
       - name: Run Linter
         run: npm run lint
 
@@ -51,6 +54,9 @@ jobs:
         with:
           node-version: 14.x
           cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install --quiet
 
       - name: Run Tests
         run: npm run lint
