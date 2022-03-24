@@ -22,15 +22,36 @@ jobs:
         run: npm install --quiet
 
   lint:
+    name: Lint
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - name: Lint
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+
+      - name: Run Linter
+        run: npm run lint
+
+  test:
+    name: Test
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: 'npm'
+
+      - name: Run Tests
         run: npm run lint
 
 
   deploy-preview:
-    needs: setup
+    needs: ['lint', 'test']
     runs-on: ubuntu-latest
     steps:
       # TODO: Use in deploy of branches as key
