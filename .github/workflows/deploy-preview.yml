@@ -7,9 +7,9 @@ on:
       - 'feature/**'
 
 jobs:
-  deploy-preview:
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -23,9 +23,16 @@ jobs:
       - name: Install Dependencies
         run: npm install --quiet
 
+  lint:
+    needs: setup
+    steps:
       - name: Lint
         run: npm run lint
 
+
+  deploy-preview:
+    needs: setup
+    steps:
       # TODO: Use in deploy of branches as key
       # - name: GitHub Refs
       #   if: contains(github.event.pull_request.labels.*.name, 'deploy')
