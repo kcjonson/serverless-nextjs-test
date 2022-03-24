@@ -3,9 +3,7 @@ name: Deploy Preview
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled]
-    branches:
-      - 'feature/**'
-
+    
 jobs:
   setup:
     name: Setup
